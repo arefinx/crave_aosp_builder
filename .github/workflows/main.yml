@@ -13,7 +13,7 @@ on:
       BASE_PROJECT:
         description: 'Choose a base project:'
         required: true
-        default: 'LineageOS 20.0'
+        default: 'LineageOS 21.0'
         type: choice
         options:
           - 'LineageOS 20.0'
@@ -21,6 +21,7 @@ on:
           - 'ArrowOS 13.1'
           - 'DerpFest 13.0'
           - 'CipherOS 14'
+          - 'StatixOS 14'
       BUILD_DIFFERENT_ROM:
         description: "Command to initialize a different 'repo' project:"
         required: false
@@ -31,19 +32,19 @@ on:
       LOCAL_MANIFEST:
         description: "Personal local manifest [repository or raw]:"
         required: true
-        default: 'https://github.com/sounddrill31/local_manifests'
+        default: 'https://github.com/arefinx/local_manifests'
       LOCAL_MANIFEST_BRANCH:
         description: "Personal local manifest's branch:"
         required: false
-        default: 'lineage-oxygen'
+        default: 'lineage-21.0'
       DEVICE_NAME:
         description: "Device's codename:"
         required: true
-        default: "oxygen"
+        default: "sunny"
       PRODUCT_NAME:
         description: "Product to build:"
         required: true
-        default: "lineage_oxygen"
+        default: "lineage_sunny"
       BUILD_COMMAND:
         description: 'Command to be used for compiling:'
         required: true
@@ -107,6 +108,10 @@ jobs:
         "CipherOS 14")
           export PROJECTFOLDER="/crave-devspaces/Cipher14"
           export REPO_INIT="repo init -u https://github.com/CipherOS/android_manifest.git -b fourteen --git-lfs --depth=1"
+        ;;
+        "StatixOS 14")
+          export PROJECTFOLDER="/crave-devspaces/Statix14"
+          export REPO_INIT="repo init -u https://github.com/StatiXOS/android_manifest.git -b udc-qpr2 --git-lfs --depth=1"
         ;;
         esac
         if [ -d "$PROJECTFOLDER" ]; then
@@ -180,6 +185,9 @@ jobs:
                   ;;
                   "CipherOS 14")
                     repo init -u https://github.com/CipherOS/android_manifest.git -b fourteen --git-lfs --depth=1
+                  ;;
+                  "StatixOS 14")
+                    repo init -u https://github.com/StatiXOS/android_manifest.git -b udc-qpr2 --git-lfs --depth=1
                   ;;
               esac
              else
@@ -273,8 +281,8 @@ jobs:
         /opt/crave/resync.sh  && \
 
         # Set up build environment
-        export BUILD_USERNAME=${{ github.actor }} ; \
-        export BUILD_HOSTNAME=crave ; \
+        export BUILD_USERNAME=ozonedx ; \
+        export BUILD_HOSTNAME=spacecraft ; \
         source build/envsetup.sh && \
 
         echo "Repository: ${{ github.repository }}"; \
